@@ -26,11 +26,6 @@ readonly all_images=$output_dir/all
 readonly used_images=$output_dir/used
 readonly unused_images=$output_dir/unused
 
-function info() {
-    echo -e "\nArtifacts available in $output_dir"
-}
-trap info EXIT ERR INT
-
 function image_history() {
     local readonly image_hash=$1
     $jq '.[]' $image_dir/$image_hash/ancestry | tr -d  '"'
