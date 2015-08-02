@@ -9,12 +9,18 @@ fi
 set -eu
 shopt -s nullglob
 
-readonly base_dir=/var/lib/docker/registry
+if [ -z "${REGISTRY_DATA_DIR-}" ]; then
+    echo "No registry data dir specified, using default: /var/lib/docker/registry"
+    BASE_DIR=/var/lib/docker/registry
+else
+    BASE_DIR=$REGISTRY_DATA_DIR;
+fi
+
 readonly output_dir=$(mktemp -d -t trace-images-XXXX)
 readonly jq=$JQPATH
 
-readonly repository_dir=$base_dir/repositories
-readonly image_dir=$base_dir/images
+readonly repository_dir=$BASE_DIR/repositories
+readonly image_dir=$BASE_DIR/images
 
 readonly all_images=$output_dir/all
 readonly used_images=$output_dir/used
